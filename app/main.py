@@ -8,11 +8,6 @@ from textwrap import indent
 from typing import Any, Dict, Tuple, Type
 
 from faker import Faker
-from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import StreamingResponse
-from pydantic import BaseConfig, BaseModel, create_model
-
 from faker_file.base import FileMixin
 from faker_file.providers.bin_file import BinFileProvider
 from faker_file.providers.csv_file import CsvFileProvider
@@ -35,6 +30,10 @@ from faker_file.providers.txt_file import TxtFileProvider
 from faker_file.providers.webp_file import WebpFileProvider
 from faker_file.providers.xlsx_file import XlsxFileProvider
 from faker_file.providers.zip_file import ZipFileProvider
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import StreamingResponse
+from pydantic import BaseConfig, BaseModel, create_model
 
 __author__ = "Artur Barseghyan <artur.barseghyan@gmail.com>"
 __copyright__ = "2023 Artur Barseghyan"
