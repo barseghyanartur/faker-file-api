@@ -1,11 +1,18 @@
 import inspect
+import json
 import os
 from copy import deepcopy
 from io import BytesIO
 from operator import itemgetter
-from typing import Any, Dict, Type
+from textwrap import indent
+from typing import Any, Dict, Tuple, Type
 
 from faker import Faker
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import StreamingResponse
+from pydantic import BaseConfig, BaseModel, create_model
+
 from faker_file.base import FileMixin
 from faker_file.providers.bin_file import BinFileProvider
 from faker_file.providers.csv_file import CsvFileProvider
@@ -28,16 +35,14 @@ from faker_file.providers.txt_file import TxtFileProvider
 from faker_file.providers.webp_file import WebpFileProvider
 from faker_file.providers.xlsx_file import XlsxFileProvider
 from faker_file.providers.zip_file import ZipFileProvider
-from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import StreamingResponse
-from pydantic import BaseModel, BaseConfig
-from pydantic import create_model
 
 __author__ = "Artur Barseghyan <artur.barseghyan@gmail.com>"
 __copyright__ = "2023 Artur Barseghyan"
 __license__ = "MIT"
-__all__ = ["root", "providers",]
+__all__ = [
+    "providers",
+    "root",
+]
 
 KWARGS_DROP = {
     "self",  # Drop as irrelevant
@@ -79,13 +84,13 @@ PROVIDERS = {
 def build_schema_extra(annotations, model_props) -> Dict[str, Any]:
     """Build schema extra values.
 
-        {
-            "schema_extra": {
-                "example": {
-                    "prefix": "",
-                },
-            }
+    {
+        "schema_extra": {
+            "example": {
+                "prefix": "",
+            },
         }
+    }
     """
     clean_props = dict(filter(itemgetter(1), model_props.items()))
     if clean_props:
@@ -93,7 +98,9 @@ def build_schema_extra(annotations, model_props) -> Dict[str, Any]:
     return {}
 
 
-def build_pydantic_model(cls: Type[FileMixin], method_name: str) -> Type[BaseModel]:
+def build_pydantic_model(
+    cls: Type[FileMixin], method_name: str
+) -> Tuple[Type[BaseModel], Dict[str, Any]]:
     """Build pydantic model."""
     method = getattr(cls, method_name)
     method_specs = inspect.getfullargspec(method)
@@ -107,7 +114,10 @@ def build_pydantic_model(cls: Type[FileMixin], method_name: str) -> Type[BaseMod
         annotations.pop(kwarg_name, None)
         model_props.pop(kwarg_name, None)
 
-    model_config = {k: (v, model_props.get(k, ...)) for k, v in annotations.items()}
+    model_config = {
+        k: (v, model_props.get(k, ...)) for k, v in annotations.items()
+    }
+
     config_kwargs = {
         "arbitrary_types_allowed": True,
     }
@@ -119,7 +129,7 @@ def build_pydantic_model(cls: Type[FileMixin], method_name: str) -> Type[BaseMod
         **model_config,
     )
 
-    return method_model_cls
+    return method_model_cls, model_props
 
 
 app = FastAPI()
@@ -141,29 +151,44 @@ async def root():
 @app.get("/providers/")
 async def providers():
     """Providers."""
-    return {f"/{name}/": cls.__doc__.split("\n")[0] for name, cls in PROVIDERS.items()}
+    return {
+        f"/{name}/": cls.__doc__.split("\n")[0]
+        for name, cls in PROVIDERS.items()
+    }
 
 
 def generate_func(__method_name, __provider):
-    __model = build_pydantic_model(__provider, __method_name)
+    __model, __props = build_pydantic_model(__provider, __method_name)
+    __json = indent(
+        json.dumps(__props, indent=4)[1:-1].replace("\n", "\n"), "    "
+    )
+    __description = f"""\n**Example Value:**\n
+    {{
+    {__json}
+    }}
+    """
 
     @app.post(
         f"/{__method_name}/",
-        summary=f"{__method_name}",  # TODO
-        description=f"{__method_name}",  # TODO
+        summary=__provider.__doc__.split("\n")[0],
+        description=f"{__description}",
     )
     async def _provider_func(item: __model):
         _faker = Faker()  # TODO: Let specify the locale in the params
         _method = getattr(__provider(_faker), __method_name)
         _kwargs = deepcopy(item.__dict__)
-        _kwargs.update({"raw": True})  # Force bytes, so that we stream the response
+        _kwargs.update(
+            {"raw": True}
+        )  # Force bytes, so that we stream the response
         _raw = _method(**_kwargs)
         _test_file = BytesIO(_raw)
         _test_file.name = os.path.basename(_raw.data["filename"])
         return StreamingResponse(
             _test_file,
             media_type="application/octet-stream",
-            headers={"Content-Disposition": f"inline; filename={_test_file.name}"}
+            headers={
+                "Content-Disposition": f"inline; filename={_test_file.name}"
+            },
         )
 
     return _provider_func
