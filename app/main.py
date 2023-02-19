@@ -118,6 +118,7 @@ def build_pydantic_model(
     }
 
     config_kwargs = {
+        "title": method_name.split("_file")[0],
         "arbitrary_types_allowed": True,
     }
     config_kwargs.update(build_schema_extra(annotations, model_props))
