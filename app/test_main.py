@@ -28,7 +28,7 @@ class TestApp(TestCase):
 
         for name in PROVIDERS:
             with self.subTest(f"{name}"):
-                self.assertIn(f"/{name}1/", response_json)
+                self.assertIn(f"/{name}/", response_json)
 
     def test_providers(self):
         """Test all individual providers (POST)."""
