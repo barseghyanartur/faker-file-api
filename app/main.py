@@ -48,7 +48,9 @@ KWARGS_DROP = {
     "storage",  # Drop as non-supported arg
     "return",  # Drop as irrelevant
     "mp3_generator_cls",  # Drop as non-supported arg
-    "mp3_generator_kwargs",  # Drop as non-supported arg
+    # "mp3_generator_kwargs",  # Drop as non-supported arg
+    "pdf_generator_cls",  # Drop as non-supported arg
+    # "pdf_generator_kwargs",  # Drop as non-supported arg
     "raw",  # Drop `raw`, because we will be forcing raw=True for streaming
 }
 PROVIDERS = {

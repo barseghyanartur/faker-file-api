@@ -6,6 +6,16 @@ REST API for `faker-file`_.
 .. External references
 
 .. _faker-file: https://faker-file.readthedocs.io/en/latest/
+.. _Demo: https://faker-file-api.onrender.com/docs/
+.. _faker-file-ui: https://github.com/barseghyanartur/faker-file-ui
+.. _UI frontend demo: https://faker-file-ui.vercel.app/
+
+Online demos
+============
+Check the demo(s):
+
+- `Demo`_ (based on this repository)
+- `UI frontend demo`_ (based on `faker-file-ui`_ UI frontend)
 
 Installation
 ============
