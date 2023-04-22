@@ -47,11 +47,29 @@ KWARGS_DROP = {
     "self",  # Drop as irrelevant
     "storage",  # Drop as non-supported arg
     "return",  # Drop as irrelevant
-    "mp3_generator_cls",  # Drop as non-supported arg
+    # "mp3_generator_cls",  # Drop as non-supported arg
     # "mp3_generator_kwargs",  # Drop as non-supported arg
-    "pdf_generator_cls",  # Drop as non-supported arg
+    # "pdf_generator_cls",  # Drop as non-supported arg
     # "pdf_generator_kwargs",  # Drop as non-supported arg
     "raw",  # Drop `raw`, because we will be forcing raw=True for streaming
+}
+OVERRIDES = {
+    "Mp3FileProvider.mp3_file": {
+        "annotations": {
+            "mp3_generator_cls": str,
+        },
+        "model_props": {
+            "mp3_generator_cls": "faker_file.providers.mp3_file.generators.gtts_generator.GttsMp3Generator",
+        },
+    },
+    "PdfFileProvider.pdf_file": {
+        "annotations": {
+            "pdf_generator_cls": str,
+        },
+        "model_props": {
+            "pdf_generator_cls": "faker_file.providers.pdf_file.generators.pdfkit_generator.PdfkitPdfGenerator",
+        },
+    }
 }
 PROVIDERS = {
     BinFileProvider.bin_file.__name__: BinFileProvider,
@@ -110,6 +128,12 @@ def build_pydantic_model(
     defaults = deepcopy(method_specs.defaults)
     model_props = dict(zip(kwargs, defaults))
     annotations = deepcopy(method_specs.annotations)
+
+    # Override the type definition for mp3_generator_cls
+    override = OVERRIDES.get(f"{cls.__name__}.{method_name}", None)
+    if override:
+        annotations.update(override["annotations"])
+        model_props.update(override["model_props"])
 
     for kwarg_name in KWARGS_DROP:
         annotations.pop(kwarg_name, None)
