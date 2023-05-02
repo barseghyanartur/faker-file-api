@@ -54,12 +54,28 @@ KWARGS_DROP = {
     "raw",  # Drop `raw`, because we will be forcing raw=True for streaming
 }
 OVERRIDES = {
+    "DocxFileProvider.docx_file": {
+        "annotations": {
+            "content": str,
+        },
+        "model_props": {
+            "content": None,
+        },
+    },
     "Mp3FileProvider.mp3_file": {
         "annotations": {
             "mp3_generator_cls": str,
         },
         "model_props": {
             "mp3_generator_cls": "faker_file.providers.mp3_file.generators.gtts_generator.GttsMp3Generator",
+        },
+    },
+    "OdtFileProvider.odt_file": {
+        "annotations": {
+            "content": str,
+        },
+        "model_props": {
+            "content": None,
         },
     },
     "PdfFileProvider.pdf_file": {
@@ -113,7 +129,7 @@ def build_schema_extra(annotations, model_props) -> Dict[str, Any]:
     """
     clean_props = dict(filter(itemgetter(1), model_props.items()))
     if clean_props:
-        return {"schema_extra": {"example": clean_props}}
+        return {"schema_extra": {"examples": [clean_props, {"a": "A"}]}}
     return {}
 
 
