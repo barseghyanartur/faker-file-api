@@ -5,7 +5,7 @@ from copy import deepcopy
 from io import BytesIO
 from operator import itemgetter
 from textwrap import indent
-from typing import Any, Dict, Tuple, Type
+from typing import Any, Dict, Optional, Tuple, Type
 
 from faker import Faker
 from faker_file.base import FileMixin
@@ -14,6 +14,7 @@ from faker_file.providers.csv_file import CsvFileProvider
 from faker_file.providers.docx_file import DocxFileProvider
 from faker_file.providers.eml_file import EmlFileProvider
 from faker_file.providers.epub_file import EpubFileProvider
+from faker_file.providers.generic_file import GenericFileProvider
 from faker_file.providers.ico_file import IcoFileProvider
 from faker_file.providers.jpeg_file import JpegFileProvider
 from faker_file.providers.mp3_file import Mp3FileProvider
@@ -29,6 +30,7 @@ from faker_file.providers.tar_file import TarFileProvider
 from faker_file.providers.txt_file import TxtFileProvider
 from faker_file.providers.webp_file import WebpFileProvider
 from faker_file.providers.xlsx_file import XlsxFileProvider
+from faker_file.providers.xml_file import XmlFileProvider
 from faker_file.providers.zip_file import ZipFileProvider
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -62,6 +64,17 @@ OVERRIDES = {
             "content": None,
         },
     },
+    "GenericFileProvider.generic_file": {
+        "annotations": {
+            "content": str,
+            "basename": Optional[str],
+            "prefix": Optional[str],
+        },
+        "model_props": {
+            "basename": None,
+            "prefix": None,
+        },
+    },
     "Mp3FileProvider.mp3_file": {
         "annotations": {
             "mp3_generator_cls": str,
@@ -80,9 +93,11 @@ OVERRIDES = {
     },
     "PdfFileProvider.pdf_file": {
         "annotations": {
+            "content": str,
             "pdf_generator_cls": str,
         },
         "model_props": {
+            "content": None,
             "pdf_generator_cls": "faker_file.providers.pdf_file.generators.pdfkit_generator.PdfkitPdfGenerator",
         },
     }
@@ -93,6 +108,7 @@ PROVIDERS = {
     DocxFileProvider.docx_file.__name__: DocxFileProvider,
     EmlFileProvider.eml_file.__name__: EmlFileProvider,
     EpubFileProvider.epub_file.__name__: EpubFileProvider,
+    GenericFileProvider.generic_file.__name__: GenericFileProvider,
     IcoFileProvider.ico_file.__name__: IcoFileProvider,
     JpegFileProvider.jpeg_file.__name__: JpegFileProvider,
     Mp3FileProvider.mp3_file.__name__: Mp3FileProvider,
@@ -108,6 +124,7 @@ PROVIDERS = {
     TxtFileProvider.txt_file.__name__: TxtFileProvider,
     WebpFileProvider.webp_file.__name__: WebpFileProvider,
     XlsxFileProvider.xlsx_file.__name__: XlsxFileProvider,
+    XmlFileProvider.xml_file.__name__: XmlFileProvider,
     ZipFileProvider.zip_file.__name__: ZipFileProvider,
 }
 
