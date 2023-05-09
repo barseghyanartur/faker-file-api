@@ -11,6 +11,13 @@ __all__ = ["TestApp"]
 
 client = TestClient(app)
 
+TEST_PAYLOADS = {
+    "generic_file": {
+        "content": "{{text}}",
+        "extension": "html",
+    }
+}
+
 
 class TestApp(TestCase):
 
@@ -34,5 +41,5 @@ class TestApp(TestCase):
         """Test all individual providers (POST)."""
         for name in PROVIDERS:
             with self.subTest(f"{name}"):
-                response = client.post(f"/{name}/", json={})
+                response = client.post(f"/{name}/", json=TEST_PAYLOADS.get(name, {}))
                 self.assertEqual(response.status_code, 200, msg=name)
