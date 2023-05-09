@@ -198,6 +198,8 @@ app.add_middleware(
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
+    # Expose 'Content-Disposition' header
+    expose_headers=["Content-Disposition"],
 )
 
 
