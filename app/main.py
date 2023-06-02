@@ -32,9 +32,10 @@ from faker_file.providers.webp_file import WebpFileProvider
 from faker_file.providers.xlsx_file import XlsxFileProvider
 from faker_file.providers.xml_file import XmlFileProvider
 from faker_file.providers.zip_file import ZipFileProvider
-from fastapi import FastAPI
+from fastapi import FastAPI, Request, status
+from fastapi.encoders import jsonable_encoder
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import StreamingResponse
+from fastapi.responses import JSONResponse, StreamingResponse
 from pydantic import BaseConfig, BaseModel, create_model
 
 __author__ = "Artur Barseghyan <artur.barseghyan@gmail.com>"
@@ -100,7 +101,7 @@ OVERRIDES = {
             "content": None,
             "pdf_generator_cls": "faker_file.providers.pdf_file.generators.pdfkit_generator.PdfkitPdfGenerator",
         },
-    }
+    },
 }
 PROVIDERS = {
     BinFileProvider.bin_file.__name__: BinFileProvider,
@@ -201,6 +202,17 @@ app.add_middleware(
     # Expose 'Content-Disposition' header
     expose_headers=["Content-Disposition"],
 )
+
+
+@app.exception_handler(Exception)
+async def validation_exception_handler(request: Request, exc: Exception):
+    """Generic error handling."""
+    return JSONResponse(
+        status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+        content=jsonable_encoder(
+            {"detail": str(exc), "body": type(exc).__name__}
+        ),
+    )
 
 
 @app.get("/heartbeat/")
