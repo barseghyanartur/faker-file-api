@@ -43,7 +43,7 @@ class TestApp(TestCase):
     def test_providers(self):
         """Test all individual providers (POST)."""
         for name in PROVIDERS:
-            if not name in IGNORE_PROVIDERS:
+            if name not in IGNORE_PROVIDERS:
                 with self.subTest(f"{name}"):
                     response = client.post(
                         f"/{name}/", json=TEST_PAYLOADS.get(name, {})
