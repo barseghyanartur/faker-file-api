@@ -10,6 +10,14 @@ REST API for `faker-file`_.
 .. _faker-file-ui: https://github.com/barseghyanartur/faker-file-ui
 .. _UI frontend demo: https://faker-file-ui.vercel.app/
 
+.. image:: https://github.com/barseghyanartur/faker-file-api/workflows/test/badge.svg?branch=main
+   :target: https://github.com/barseghyanartur/faker-file-api/actions
+   :alt: Build Status
+
+.. image:: https://coveralls.io/repos/github/barseghyanartur/faker-file-api/badge.svg?branch=main&service=github
+    :target: https://coveralls.io/github/barseghyanartur/faker-file-api?branch=main
+    :alt: Coverage
+
 Online demos
 ============
 Check the demo(s):
