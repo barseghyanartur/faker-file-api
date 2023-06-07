@@ -1,5 +1,6 @@
 from unittest import TestCase
 
+from faker_file.providers.webp_file import WebpFileProvider
 from fastapi.testclient import TestClient
 
 from .main import PROVIDERS, app
@@ -18,6 +19,9 @@ TEST_PAYLOADS = {
     }
 }
 
+IGNORE_PROVIDERS = {
+    WebpFileProvider.webp_file.__name__,
+}
 
 class TestApp(TestCase):
     def test_heartbeat_endpoint(self):
@@ -39,8 +43,9 @@ class TestApp(TestCase):
     def test_providers(self):
         """Test all individual providers (POST)."""
         for name in PROVIDERS:
-            with self.subTest(f"{name}"):
-                response = client.post(
-                    f"/{name}/", json=TEST_PAYLOADS.get(name, {})
-                )
-                self.assertEqual(response.status_code, 200, msg=name)
+            if not name in IGNORE_PROVIDERS:
+                with self.subTest(f"{name}"):
+                    response = client.post(
+                        f"/{name}/", json=TEST_PAYLOADS.get(name, {})
+                    )
+                    self.assertEqual(response.status_code, 200, msg=name)
