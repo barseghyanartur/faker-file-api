@@ -10,7 +10,7 @@ REST API for `faker-file`_.
 .. _faker-file-ui: https://github.com/barseghyanartur/faker-file-ui
 .. _UI frontend demo: https://faker-file-ui.vercel.app/
 
-.. image:: https://github.com/barseghyanartur/faker-file-api/workflows/test/badge.svg?branch=main
+.. image:: https://github.com/barseghyanartur/faker-file-api/actions/workflows/test.yml/badge.svg?branch=main
    :target: https://github.com/barseghyanartur/faker-file-api/actions
    :alt: Build Status
 
