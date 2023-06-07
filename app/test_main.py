@@ -2,7 +2,7 @@ from unittest import TestCase
 
 from fastapi.testclient import TestClient
 
-from .main import app, PROVIDERS
+from .main import PROVIDERS, app
 
 __author__ = "Artur Barseghyan <artur.barseghyan@gmail.com>"
 __copyright__ = "2023 Artur Barseghyan"
@@ -20,7 +20,6 @@ TEST_PAYLOADS = {
 
 
 class TestApp(TestCase):
-
     def test_heartbeat_endpoint(self):
         """Test heartbeat (GET)."""
         response = client.get("/heartbeat/")
@@ -41,5 +40,7 @@ class TestApp(TestCase):
         """Test all individual providers (POST)."""
         for name in PROVIDERS:
             with self.subTest(f"{name}"):
-                response = client.post(f"/{name}/", json=TEST_PAYLOADS.get(name, {}))
+                response = client.post(
+                    f"/{name}/", json=TEST_PAYLOADS.get(name, {})
+                )
                 self.assertEqual(response.status_code, 200, msg=name)

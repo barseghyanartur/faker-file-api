@@ -82,7 +82,10 @@ OVERRIDES = {
             "mp3_generator_cls": str,
         },
         "model_props": {
-            "mp3_generator_cls": "faker_file.providers.mp3_file.generators.gtts_generator.GttsMp3Generator",
+            "mp3_generator_cls": (
+                "faker_file.providers.mp3_file.generators"
+                ".gtts_generator.GttsMp3Generator"
+            ),
         },
     },
     "OdtFileProvider.odt_file": {
@@ -100,7 +103,10 @@ OVERRIDES = {
         },
         "model_props": {
             "content": None,
-            "pdf_generator_cls": "faker_file.providers.pdf_file.generators.pdfkit_generator.PdfkitPdfGenerator",
+            "pdf_generator_cls": (
+                "faker_file.providers.pdf_file.generators"
+                ".pdfkit_generator.PdfkitPdfGenerator"
+            ),
         },
     },
 }
