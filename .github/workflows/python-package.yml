@@ -56,7 +56,7 @@ jobs:
   # *************************************
   coveralls_finish:
     name: coveralls_finish
-    needs: test
+    needs: build
     runs-on: ubuntu-latest
     steps:
     - name: Install dependencies
