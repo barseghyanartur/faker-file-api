@@ -28,7 +28,6 @@ from faker_file.providers.rtf_file import RtfFileProvider
 from faker_file.providers.svg_file import SvgFileProvider
 from faker_file.providers.tar_file import TarFileProvider
 from faker_file.providers.txt_file import TxtFileProvider
-from faker_file.providers.webp_file import WebpFileProvider
 from faker_file.providers.xlsx_file import XlsxFileProvider
 from faker_file.providers.xml_file import XmlFileProvider
 from faker_file.providers.zip_file import ZipFileProvider
@@ -130,7 +129,7 @@ PROVIDERS = {
     SvgFileProvider.svg_file.__name__: SvgFileProvider,
     TarFileProvider.tar_file.__name__: TarFileProvider,
     TxtFileProvider.txt_file.__name__: TxtFileProvider,
-    WebpFileProvider.webp_file.__name__: WebpFileProvider,
+    # WebpFileProvider.webp_file.__name__: WebpFileProvider,
     XlsxFileProvider.xlsx_file.__name__: XlsxFileProvider,
     XmlFileProvider.xml_file.__name__: XmlFileProvider,
     ZipFileProvider.zip_file.__name__: ZipFileProvider,
