@@ -153,7 +153,8 @@ def build_schema_extra(annotations, model_props) -> Dict[str, Any]:
     """
     clean_props = dict(filter(itemgetter(1), model_props.items()))
     if clean_props:
-        return {"schema_extra": {"examples": [clean_props, {"a": "A"}]}}
+        # For example, [clean_props, {"a": "A"}]
+        return {"schema_extra": {"examples": [clean_props, {}]}}
     return {}
 
 
