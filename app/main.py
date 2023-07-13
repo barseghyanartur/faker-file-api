@@ -15,19 +15,37 @@ from faker_file.providers.docx_file import DocxFileProvider
 from faker_file.providers.eml_file import EmlFileProvider
 from faker_file.providers.epub_file import EpubFileProvider
 from faker_file.providers.generic_file import GenericFileProvider
-from faker_file.providers.ico_file import IcoFileProvider
-from faker_file.providers.jpeg_file import JpegFileProvider
-from faker_file.providers.mp3_file import Mp3FileProvider
+from faker_file.providers.ico_file import (
+    GraphicIcoFileProvider,
+    IcoFileProvider,
+)
+from faker_file.providers.jpeg_file import (
+    GraphicJpegFileProvider,
+    JpegFileProvider,
+)
+from faker_file.providers.mixins.image_mixin import DEFAULT_IMAGE_GENERATOR
+from faker_file.providers.mp3_file import (
+    DEFAULT_MP3_GENERATOR,
+    Mp3FileProvider,
+)
 from faker_file.providers.odp_file import OdpFileProvider
 from faker_file.providers.ods_file import OdsFileProvider
 from faker_file.providers.odt_file import OdtFileProvider
-from faker_file.providers.pdf_file import PdfFileProvider
-from faker_file.providers.png_file import PngFileProvider
+from faker_file.providers.pdf_file import (
+    DEFAULT_PDF_GENERATOR,
+    GraphicPdfFileProvider,
+    PdfFileProvider,
+)
+from faker_file.providers.png_file import (
+    GraphicPngFileProvider,
+    PngFileProvider,
+)
 from faker_file.providers.pptx_file import PptxFileProvider
 from faker_file.providers.rtf_file import RtfFileProvider
 from faker_file.providers.svg_file import SvgFileProvider
 from faker_file.providers.tar_file import TarFileProvider
 from faker_file.providers.txt_file import TxtFileProvider
+from faker_file.providers.webp_file import GraphicWebpFileProvider
 from faker_file.providers.xlsx_file import XlsxFileProvider
 from faker_file.providers.xml_file import XmlFileProvider
 from faker_file.providers.zip_file import ZipFileProvider
@@ -76,15 +94,28 @@ OVERRIDES = {
             "prefix": None,
         },
     },
+    "IcoFileProvider.ico_file": {
+        "annotations": {
+            "image_generator_cls": str,
+        },
+        "model_props": {
+            "image_generator_cls": DEFAULT_IMAGE_GENERATOR,
+        },
+    },
+    "JpegFileProvider.jpeg_file": {
+        "annotations": {
+            "image_generator_cls": str,
+        },
+        "model_props": {
+            "image_generator_cls": DEFAULT_IMAGE_GENERATOR,
+        },
+    },
     "Mp3FileProvider.mp3_file": {
         "annotations": {
             "mp3_generator_cls": str,
         },
         "model_props": {
-            "mp3_generator_cls": (
-                "faker_file.providers.mp3_file.generators"
-                ".gtts_generator.GttsMp3Generator"
-            ),
+            "mp3_generator_cls": DEFAULT_MP3_GENERATOR,
         },
     },
     "OdtFileProvider.odt_file": {
@@ -102,10 +133,23 @@ OVERRIDES = {
         },
         "model_props": {
             "content": None,
-            "pdf_generator_cls": (
-                "faker_file.providers.pdf_file.generators"
-                ".pdfkit_generator.PdfkitPdfGenerator"
-            ),
+            "pdf_generator_cls": DEFAULT_PDF_GENERATOR,
+        },
+    },
+    "PngFileProvider.png_file": {
+        "annotations": {
+            "image_generator_cls": str,
+        },
+        "model_props": {
+            "image_generator_cls": DEFAULT_IMAGE_GENERATOR,
+        },
+    },
+    "SvgFileProvider.svg_file": {
+        "annotations": {
+            "image_generator_cls": str,
+        },
+        "model_props": {
+            "image_generator_cls": DEFAULT_IMAGE_GENERATOR,
         },
     },
 }
@@ -116,6 +160,11 @@ PROVIDERS = {
     EmlFileProvider.eml_file.__name__: EmlFileProvider,
     EpubFileProvider.epub_file.__name__: EpubFileProvider,
     GenericFileProvider.generic_file.__name__: GenericFileProvider,
+    GraphicIcoFileProvider.graphic_ico_file.__name__: GraphicIcoFileProvider,
+    GraphicJpegFileProvider.graphic_jpeg_file.__name__: GraphicJpegFileProvider,
+    GraphicPdfFileProvider.graphic_pdf_file.__name__: GraphicPdfFileProvider,
+    GraphicPngFileProvider.graphic_png_file.__name__: GraphicPngFileProvider,
+    GraphicWebpFileProvider.graphic_webp_file.__name__: GraphicWebpFileProvider,
     IcoFileProvider.ico_file.__name__: IcoFileProvider,
     JpegFileProvider.jpeg_file.__name__: JpegFileProvider,
     Mp3FileProvider.mp3_file.__name__: Mp3FileProvider,

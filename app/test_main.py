@@ -1,7 +1,11 @@
 from unittest import TestCase
 
+from faker_file.providers.ico_file import IcoFileProvider
+from faker_file.providers.jpeg_file import JpegFileProvider
 from faker_file.providers.generic_file import GenericFileProvider
 from faker_file.providers.pdf_file import PdfFileProvider
+from faker_file.providers.png_file import PngFileProvider
+from faker_file.providers.svg_file import SvgFileProvider
 from fastapi.testclient import TestClient
 
 from .main import PROVIDERS, app
@@ -21,9 +25,21 @@ TEST_PAYLOADS = {
 }
 
 FAIL_TEST_PAYLOADS = {
+    IcoFileProvider.ico_file.__name__: {
+        "image_generator_cls": "i.do.not.exist.ImageGenerator",
+    },
+    JpegFileProvider.jpeg_file.__name__: {
+        "image_generator_cls": "i.do.not.exist.ImageGenerator",
+    },
     PdfFileProvider.pdf_file.__name__: {
         "pdf_generator_cls": "i.do.not.exist.PdfGenerator",
-    }
+    },
+    PngFileProvider.png_file.__name__: {
+        "image_generator_cls": "i.do.not.exist.ImageGenerator",
+    },
+    SvgFileProvider.svg_file.__name__: {
+        "image_generator_cls": "i.do.not.exist.ImageGenerator",
+    },
 }
 
 
