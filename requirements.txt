@@ -1,5 +1,6 @@
 Faker
 faker-file[common]
 fastapi
+Pillow<10.0.0
 pydantic
 uvicorn
