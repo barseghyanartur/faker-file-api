@@ -1,5 +1,5 @@
 Faker
-faker-file[common]
+faker-file[common]>=0.17.2
 fastapi
 Pillow<10.0.0
 pydantic
