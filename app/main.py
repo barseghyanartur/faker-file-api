@@ -10,19 +10,19 @@ from typing import Any, Dict, Optional, Tuple, Type
 from faker import Faker
 from faker_file.base import FileMixin
 from faker_file.providers.bin_file import BinFileProvider
-from faker_file.providers.bmp_file import (
-    BmpFileProvider,
-    GraphicBmpFileProvider,
-)
+# from faker_file.providers.bmp_file import (
+#     BmpFileProvider,
+#     GraphicBmpFileProvider,
+# )
 from faker_file.providers.csv_file import CsvFileProvider
 from faker_file.providers.docx_file import DocxFileProvider
 from faker_file.providers.eml_file import EmlFileProvider
 from faker_file.providers.epub_file import EpubFileProvider
 from faker_file.providers.generic_file import GenericFileProvider
-from faker_file.providers.gif_file import (
-    GifFileProvider,
-    GraphicGifFileProvider,
-)
+# from faker_file.providers.gif_file import (
+#     GifFileProvider,
+#     GraphicGifFileProvider,
+# )
 from faker_file.providers.ico_file import (
     GraphicIcoFileProvider,
     IcoFileProvider,
@@ -33,7 +33,7 @@ from faker_file.providers.jpeg_file import (
 )
 from faker_file.providers.mixins.image_mixin import (
     DEFAULT_IMAGE_GENERATOR,
-    WEASYPRINT_IMAGE_GENERATOR,
+    # WEASYPRINT_IMAGE_GENERATOR,
 )
 from faker_file.providers.mp3_file import (
     DEFAULT_MP3_GENERATOR,
@@ -55,10 +55,10 @@ from faker_file.providers.pptx_file import PptxFileProvider
 from faker_file.providers.rtf_file import RtfFileProvider
 from faker_file.providers.svg_file import SvgFileProvider
 from faker_file.providers.tar_file import TarFileProvider
-from faker_file.providers.tiff_file import (
-    GraphicTiffFileProvider,
-    TiffFileProvider,
-)
+# from faker_file.providers.tiff_file import (
+#     GraphicTiffFileProvider,
+#     TiffFileProvider,
+# )
 from faker_file.providers.txt_file import TxtFileProvider
 from faker_file.providers.webp_file import GraphicWebpFileProvider
 from faker_file.providers.xlsx_file import XlsxFileProvider
@@ -90,14 +90,14 @@ KWARGS_DROP = {
     "raw",  # Drop `raw`, because we will be forcing raw=True for streaming
 }
 OVERRIDES = {
-    "BmpFileProvider.bmp_file": {
-        "annotations": {
-            "image_generator_cls": str,
-        },
-        "model_props": {
-            "image_generator_cls": WEASYPRINT_IMAGE_GENERATOR,
-        },
-    },
+    # "BmpFileProvider.bmp_file": {
+    #     "annotations": {
+    #         "image_generator_cls": str,
+    #     },
+    #     "model_props": {
+    #         "image_generator_cls": WEASYPRINT_IMAGE_GENERATOR,
+    #     },
+    # },
     "DocxFileProvider.docx_file": {
         "annotations": {
             "content": str,
@@ -117,14 +117,14 @@ OVERRIDES = {
             "prefix": None,
         },
     },
-    "GifFileProvider.gif_file": {
-        "annotations": {
-            "image_generator_cls": str,
-        },
-        "model_props": {
-            "image_generator_cls": WEASYPRINT_IMAGE_GENERATOR,
-        },
-    },
+    # "GifFileProvider.gif_file": {
+    #     "annotations": {
+    #         "image_generator_cls": str,
+    #     },
+    #     "model_props": {
+    #         "image_generator_cls": WEASYPRINT_IMAGE_GENERATOR,
+    #     },
+    # },
     "IcoFileProvider.ico_file": {
         "annotations": {
             "image_generator_cls": str,
@@ -183,31 +183,31 @@ OVERRIDES = {
             "image_generator_cls": DEFAULT_IMAGE_GENERATOR,
         },
     },
-    "TiffFileProvider.tiff_file": {
-        "annotations": {
-            "image_generator_cls": str,
-        },
-        "model_props": {
-            "image_generator_cls": WEASYPRINT_IMAGE_GENERATOR,
-        },
-    },
+    # "TiffFileProvider.tiff_file": {
+    #     "annotations": {
+    #         "image_generator_cls": str,
+    #     },
+    #     "model_props": {
+    #         "image_generator_cls": WEASYPRINT_IMAGE_GENERATOR,
+    #     },
+    # },
 }
 PROVIDERS = {
     BinFileProvider.bin_file.__name__: BinFileProvider,
-    BmpFileProvider.bmp_file.__name__: BmpFileProvider,
+    # BmpFileProvider.bmp_file.__name__: BmpFileProvider,
     CsvFileProvider.csv_file.__name__: CsvFileProvider,
     DocxFileProvider.docx_file.__name__: DocxFileProvider,
     EmlFileProvider.eml_file.__name__: EmlFileProvider,
     EpubFileProvider.epub_file.__name__: EpubFileProvider,
-    GifFileProvider.gif_file.__name__: GifFileProvider,
+    # GifFileProvider.gif_file.__name__: GifFileProvider,
     GenericFileProvider.generic_file.__name__: GenericFileProvider,
-    GraphicBmpFileProvider.graphic_bmp_file.__name__: GraphicBmpFileProvider,
-    GraphicGifFileProvider.graphic_gif_file.__name__: GraphicGifFileProvider,
+    # GraphicBmpFileProvider.graphic_bmp_file.__name__: GraphicBmpFileProvider,
+    # GraphicGifFileProvider.graphic_gif_file.__name__: GraphicGifFileProvider,
     GraphicIcoFileProvider.graphic_ico_file.__name__: GraphicIcoFileProvider,
     GraphicJpegFileProvider.graphic_jpeg_file.__name__: GraphicJpegFileProvider,
     GraphicPdfFileProvider.graphic_pdf_file.__name__: GraphicPdfFileProvider,
     GraphicPngFileProvider.graphic_png_file.__name__: GraphicPngFileProvider,
-    GraphicTiffFileProvider.graphic_tiff_file.__name__: GraphicTiffFileProvider,
+    # GraphicTiffFileProvider.graphic_tiff_file.__name__: GraphicTiffFileProvider,
     GraphicWebpFileProvider.graphic_webp_file.__name__: GraphicWebpFileProvider,
     IcoFileProvider.ico_file.__name__: IcoFileProvider,
     JpegFileProvider.jpeg_file.__name__: JpegFileProvider,
@@ -221,7 +221,7 @@ PROVIDERS = {
     RtfFileProvider.rtf_file.__name__: RtfFileProvider,
     SvgFileProvider.svg_file.__name__: SvgFileProvider,
     TarFileProvider.tar_file.__name__: TarFileProvider,
-    TiffFileProvider.tiff_file.__name__: TiffFileProvider,
+    # TiffFileProvider.tiff_file.__name__: TiffFileProvider,
     TxtFileProvider.txt_file.__name__: TxtFileProvider,
     # WebpFileProvider.webp_file.__name__: WebpFileProvider,
     XlsxFileProvider.xlsx_file.__name__: XlsxFileProvider,
