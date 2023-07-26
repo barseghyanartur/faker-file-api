@@ -1,8 +1,8 @@
 from unittest import TestCase
 
+from faker_file.providers.generic_file import GenericFileProvider
 from faker_file.providers.ico_file import IcoFileProvider
 from faker_file.providers.jpeg_file import JpegFileProvider
-from faker_file.providers.generic_file import GenericFileProvider
 from faker_file.providers.pdf_file import PdfFileProvider
 from faker_file.providers.png_file import PngFileProvider
 from faker_file.providers.svg_file import SvgFileProvider

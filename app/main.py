@@ -10,6 +10,7 @@ from typing import Any, Dict, Optional, Tuple, Type
 from faker import Faker
 from faker_file.base import FileMixin
 from faker_file.providers.bin_file import BinFileProvider
+
 # from faker_file.providers.bmp_file import (
 #     BmpFileProvider,
 #     GraphicBmpFileProvider,
@@ -19,6 +20,7 @@ from faker_file.providers.docx_file import DocxFileProvider
 from faker_file.providers.eml_file import EmlFileProvider
 from faker_file.providers.epub_file import EpubFileProvider
 from faker_file.providers.generic_file import GenericFileProvider
+
 # from faker_file.providers.gif_file import (
 #     GifFileProvider,
 #     GraphicGifFileProvider,
@@ -31,14 +33,8 @@ from faker_file.providers.jpeg_file import (
     GraphicJpegFileProvider,
     JpegFileProvider,
 )
-from faker_file.providers.mixins.image_mixin import (
-    DEFAULT_IMAGE_GENERATOR,
-    # WEASYPRINT_IMAGE_GENERATOR,
-)
-from faker_file.providers.mp3_file import (
-    DEFAULT_MP3_GENERATOR,
-    Mp3FileProvider,
-)
+from faker_file.providers.mixins.image_mixin import DEFAULT_IMAGE_GENERATOR
+from faker_file.providers.mp3_file import DEFAULT_MP3_GENERATOR, Mp3FileProvider
 from faker_file.providers.odp_file import OdpFileProvider
 from faker_file.providers.ods_file import OdsFileProvider
 from faker_file.providers.odt_file import OdtFileProvider
@@ -55,6 +51,7 @@ from faker_file.providers.pptx_file import PptxFileProvider
 from faker_file.providers.rtf_file import RtfFileProvider
 from faker_file.providers.svg_file import SvgFileProvider
 from faker_file.providers.tar_file import TarFileProvider
+
 # from faker_file.providers.tiff_file import (
 #     GraphicTiffFileProvider,
 #     TiffFileProvider,
@@ -207,7 +204,9 @@ PROVIDERS = {
     GraphicJpegFileProvider.graphic_jpeg_file.__name__: GraphicJpegFileProvider,
     GraphicPdfFileProvider.graphic_pdf_file.__name__: GraphicPdfFileProvider,
     GraphicPngFileProvider.graphic_png_file.__name__: GraphicPngFileProvider,
-    # GraphicTiffFileProvider.graphic_tiff_file.__name__: GraphicTiffFileProvider,
+    # GraphicTiffFileProvider.graphic_tiff_file.__name__: (
+    #     GraphicTiffFileProvider
+    # ),
     GraphicWebpFileProvider.graphic_webp_file.__name__: GraphicWebpFileProvider,
     IcoFileProvider.ico_file.__name__: IcoFileProvider,
     JpegFileProvider.jpeg_file.__name__: JpegFileProvider,
