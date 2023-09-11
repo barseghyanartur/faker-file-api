@@ -73,7 +73,5 @@ class TestApp(TestCase):
         """Trigger exceptions."""
         for name, params in FAIL_TEST_PAYLOADS.items():
             with self.subTest(f"{name}"):
-                with self.assertRaises(Exception) as err:
-                    client.post(f"/{name}/", json=params)
-                exc = err.exception
-                self.assertIsInstance(exc, ImportError, msg=name)
+                response = client.post(f"/{name}/", json=params)
+                self.assertEqual(response.status_code, 422, msg=name)

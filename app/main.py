@@ -2,6 +2,7 @@ import inspect
 import json
 import os
 from copy import deepcopy
+from enum import Enum
 from io import BytesIO
 from operator import itemgetter
 from textwrap import indent
@@ -10,7 +11,6 @@ from typing import Any, Dict, Optional, Tuple, Type
 from faker import Faker
 from faker_file.base import FileMixin
 from faker_file.providers.bin_file import BinFileProvider
-
 # from faker_file.providers.bmp_file import (
 #     BmpFileProvider,
 #     GraphicBmpFileProvider,
@@ -20,7 +20,6 @@ from faker_file.providers.docx_file import DocxFileProvider
 from faker_file.providers.eml_file import EmlFileProvider
 from faker_file.providers.epub_file import EpubFileProvider
 from faker_file.providers.generic_file import GenericFileProvider
-
 # from faker_file.providers.gif_file import (
 #     GifFileProvider,
 #     GraphicGifFileProvider,
@@ -33,13 +32,23 @@ from faker_file.providers.jpeg_file import (
     GraphicJpegFileProvider,
     JpegFileProvider,
 )
-from faker_file.providers.mixins.image_mixin import DEFAULT_IMAGE_GENERATOR
-from faker_file.providers.mp3_file import DEFAULT_MP3_GENERATOR, Mp3FileProvider
+from faker_file.providers.mixins.image_mixin import (
+    IMAGEKIT_IMAGE_GENERATOR,
+    PIL_IMAGE_GENERATOR,
+    WEASYPRINT_IMAGE_GENERATOR,
+)
+from faker_file.providers.mp3_file import (
+    EDGE_TTS_MP3_GENERATOR,
+    GTTS_MP3_GENERATOR,
+    Mp3FileProvider,
+)
 from faker_file.providers.odp_file import OdpFileProvider
 from faker_file.providers.ods_file import OdsFileProvider
 from faker_file.providers.odt_file import OdtFileProvider
 from faker_file.providers.pdf_file import (
-    DEFAULT_PDF_GENERATOR,
+    PDFKIT_PDF_GENERATOR,
+    PIL_PDF_GENERATOR,
+    REPORTLAB_PDF_GENERATOR,
     GraphicPdfFileProvider,
     PdfFileProvider,
 )
@@ -51,7 +60,6 @@ from faker_file.providers.pptx_file import PptxFileProvider
 from faker_file.providers.rtf_file import RtfFileProvider
 from faker_file.providers.svg_file import SvgFileProvider
 from faker_file.providers.tar_file import TarFileProvider
-
 # from faker_file.providers.tiff_file import (
 #     GraphicTiffFileProvider,
 #     TiffFileProvider,
@@ -75,6 +83,24 @@ __all__ = [
     "root",
 ]
 
+
+class PDFGeneratorCls(str, Enum):
+    PIL_PDF_GENERATOR = PIL_PDF_GENERATOR
+    PDFKIT_PDF_GENERATOR = PDFKIT_PDF_GENERATOR
+    REPORTLAB_PDF_GENERATOR = REPORTLAB_PDF_GENERATOR
+
+
+class ImageGeneratorCls(str, Enum):
+    IMAGEKIT_IMAGE_GENERATOR = IMAGEKIT_IMAGE_GENERATOR
+    PIL_IMAGE_GENERATOR = PIL_IMAGE_GENERATOR
+    WEASYPRINT_IMAGE_GENERATOR = WEASYPRINT_IMAGE_GENERATOR
+
+
+class Mp3GeneratorCls(str, Enum):
+    GTTS_MP3_GENERATOR = GTTS_MP3_GENERATOR
+    EDGE_TTS_MP3_GENERATOR = EDGE_TTS_MP3_GENERATOR
+
+
 KWARGS_DROP = {
     "self",  # Drop as irrelevant
     "storage",  # Drop as non-supported arg
@@ -89,10 +115,12 @@ KWARGS_DROP = {
 OVERRIDES = {
     # "BmpFileProvider.bmp_file": {
     #     "annotations": {
-    #         "image_generator_cls": str,
+    #         "image_generator_cls": ImageGeneratorCls,
     #     },
     #     "model_props": {
-    #         "image_generator_cls": WEASYPRINT_IMAGE_GENERATOR,
+    #         "image_generator_cls": (
+    #             ImageGeneratorCls.WEASYPRINT_IMAGE_GENERATOR
+    #         ),
     #     },
     # },
     "DocxFileProvider.docx_file": {
@@ -116,34 +144,36 @@ OVERRIDES = {
     },
     # "GifFileProvider.gif_file": {
     #     "annotations": {
-    #         "image_generator_cls": str,
+    #         "image_generator_cls": ImageGeneratorCls,
     #     },
     #     "model_props": {
-    #         "image_generator_cls": WEASYPRINT_IMAGE_GENERATOR,
+    #         "image_generator_cls": (
+    #             ImageGeneratorCls.WEASYPRINT_IMAGE_GENERATOR
+    #         ),
     #     },
     # },
     "IcoFileProvider.ico_file": {
         "annotations": {
-            "image_generator_cls": str,
+            "image_generator_cls": ImageGeneratorCls,
         },
         "model_props": {
-            "image_generator_cls": DEFAULT_IMAGE_GENERATOR,
+            "image_generator_cls": ImageGeneratorCls.IMAGEKIT_IMAGE_GENERATOR,
         },
     },
     "JpegFileProvider.jpeg_file": {
         "annotations": {
-            "image_generator_cls": str,
+            "image_generator_cls": ImageGeneratorCls,
         },
         "model_props": {
-            "image_generator_cls": DEFAULT_IMAGE_GENERATOR,
+            "image_generator_cls": ImageGeneratorCls.IMAGEKIT_IMAGE_GENERATOR,
         },
     },
     "Mp3FileProvider.mp3_file": {
         "annotations": {
-            "mp3_generator_cls": str,
+            "mp3_generator_cls": Mp3GeneratorCls,
         },
         "model_props": {
-            "mp3_generator_cls": DEFAULT_MP3_GENERATOR,
+            "mp3_generator_cls": Mp3GeneratorCls.GTTS_MP3_GENERATOR,
         },
     },
     "OdtFileProvider.odt_file": {
@@ -157,35 +187,37 @@ OVERRIDES = {
     "PdfFileProvider.pdf_file": {
         "annotations": {
             "content": str,
-            "pdf_generator_cls": str,
+            "pdf_generator_cls": PDFGeneratorCls,
         },
         "model_props": {
             "content": None,
-            "pdf_generator_cls": DEFAULT_PDF_GENERATOR,
+            "pdf_generator_cls": PDFGeneratorCls.PIL_PDF_GENERATOR,
         },
     },
     "PngFileProvider.png_file": {
         "annotations": {
-            "image_generator_cls": str,
+            "image_generator_cls": ImageGeneratorCls,
         },
         "model_props": {
-            "image_generator_cls": DEFAULT_IMAGE_GENERATOR,
+            "image_generator_cls": ImageGeneratorCls.IMAGEKIT_IMAGE_GENERATOR,
         },
     },
     "SvgFileProvider.svg_file": {
         "annotations": {
-            "image_generator_cls": str,
+            "image_generator_cls": ImageGeneratorCls,
         },
         "model_props": {
-            "image_generator_cls": DEFAULT_IMAGE_GENERATOR,
+            "image_generator_cls": ImageGeneratorCls.IMAGEKIT_IMAGE_GENERATOR,
         },
     },
     # "TiffFileProvider.tiff_file": {
     #     "annotations": {
-    #         "image_generator_cls": str,
+    #         "image_generator_cls": ImageGeneratorCls,
     #     },
     #     "model_props": {
-    #         "image_generator_cls": WEASYPRINT_IMAGE_GENERATOR,
+    #         "image_generator_cls": (
+    #             ImageGeneratorCls.WEASYPRINT_IMAGE_GENERATOR
+    #         ),
     #     },
     # },
 }
