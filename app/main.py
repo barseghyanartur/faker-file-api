@@ -35,8 +35,10 @@ from faker_file.providers.jpeg_file import (
 from faker_file.providers.mixins.image_mixin import (
     IMAGEKIT_IMAGE_GENERATOR,
     PIL_IMAGE_GENERATOR,
-    WEASYPRINT_IMAGE_GENERATOR,
 )
+# from faker_file.providers.mixins.image_mixin import (
+#     WEASYPRINT_IMAGE_GENERATOR
+# )
 from faker_file.providers.mp3_file import (
     EDGE_TTS_MP3_GENERATOR,
     GTTS_MP3_GENERATOR,
@@ -93,7 +95,11 @@ class PDFGeneratorCls(str, Enum):
 class ImageGeneratorCls(str, Enum):
     IMAGEKIT_IMAGE_GENERATOR = IMAGEKIT_IMAGE_GENERATOR
     PIL_IMAGE_GENERATOR = PIL_IMAGE_GENERATOR
-    WEASYPRINT_IMAGE_GENERATOR = WEASYPRINT_IMAGE_GENERATOR
+    # WeasyPrint has some system dependencies that aren't properly
+    # installed on onrender.com. Therefore, temporarily disable
+    # WeasyPrint (although it works perfectly when installed on
+    # a system with full control).
+    # WEASYPRINT_IMAGE_GENERATOR = WEASYPRINT_IMAGE_GENERATOR
 
 
 class Mp3GeneratorCls(str, Enum):
