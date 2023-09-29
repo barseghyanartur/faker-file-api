@@ -118,6 +118,7 @@ KWARGS_DROP = {
     "format_func",  # Drop as non-supported arg
     "raw",  # Drop `raw`, because we will be forcing raw=True for streaming
 }
+
 OVERRIDES = {
     # "BmpFileProvider.bmp_file": {
     #     "annotations": {
@@ -227,43 +228,160 @@ OVERRIDES = {
     #     },
     # },
 }
+
+
+class Category(str, Enum):
+    BINARY = "Binary"
+    RICH_TEXT = "Rich Text"
+    IMAGE = "Image"
+    SPREADSHEET = "Spreadsheet"
+    ARCHIVE = "Archive"
+    PUBLISHING = "Publishing"
+    MARKUP = "Markup"
+    DATA = "Data"
+    GENERIC = "Generic"
+    AUDIO = "Audio"
+    PRESENTATION = "Presentation"
+    TEXT = "Text"
+
+
 PROVIDERS = {
-    BinFileProvider.bin_file.__name__: BinFileProvider,
-    # BmpFileProvider.bmp_file.__name__: BmpFileProvider,
-    CsvFileProvider.csv_file.__name__: CsvFileProvider,
-    DocxFileProvider.docx_file.__name__: DocxFileProvider,
-    EmlFileProvider.eml_file.__name__: EmlFileProvider,
-    EpubFileProvider.epub_file.__name__: EpubFileProvider,
-    # GifFileProvider.gif_file.__name__: GifFileProvider,
-    GenericFileProvider.generic_file.__name__: GenericFileProvider,
-    # GraphicBmpFileProvider.graphic_bmp_file.__name__: GraphicBmpFileProvider,
-    # GraphicGifFileProvider.graphic_gif_file.__name__: GraphicGifFileProvider,
-    GraphicIcoFileProvider.graphic_ico_file.__name__: GraphicIcoFileProvider,
-    GraphicJpegFileProvider.graphic_jpeg_file.__name__: GraphicJpegFileProvider,
-    GraphicPdfFileProvider.graphic_pdf_file.__name__: GraphicPdfFileProvider,
-    GraphicPngFileProvider.graphic_png_file.__name__: GraphicPngFileProvider,
-    # GraphicTiffFileProvider.graphic_tiff_file.__name__: (
-    #     GraphicTiffFileProvider
+    BinFileProvider.bin_file.__name__: (
+        BinFileProvider,
+        Category.BINARY.value,
+    ),
+    # BmpFileProvider.bmp_file.__name__: (
+    #     BmpFileProvider,
+    #     Category.IMAGE.value,
     # ),
-    GraphicWebpFileProvider.graphic_webp_file.__name__: GraphicWebpFileProvider,
-    IcoFileProvider.ico_file.__name__: IcoFileProvider,
-    JpegFileProvider.jpeg_file.__name__: JpegFileProvider,
-    Mp3FileProvider.mp3_file.__name__: Mp3FileProvider,
-    OdpFileProvider.odp_file.__name__: OdpFileProvider,
-    OdsFileProvider.ods_file.__name__: OdsFileProvider,
-    OdtFileProvider.odt_file.__name__: OdtFileProvider,
-    PdfFileProvider.pdf_file.__name__: PdfFileProvider,
-    PngFileProvider.png_file.__name__: PngFileProvider,
-    PptxFileProvider.pptx_file.__name__: PptxFileProvider,
-    RtfFileProvider.rtf_file.__name__: RtfFileProvider,
-    SvgFileProvider.svg_file.__name__: SvgFileProvider,
-    TarFileProvider.tar_file.__name__: TarFileProvider,
-    # TiffFileProvider.tiff_file.__name__: TiffFileProvider,
-    TxtFileProvider.txt_file.__name__: TxtFileProvider,
-    # WebpFileProvider.webp_file.__name__: WebpFileProvider,
-    XlsxFileProvider.xlsx_file.__name__: XlsxFileProvider,
-    XmlFileProvider.xml_file.__name__: XmlFileProvider,
-    ZipFileProvider.zip_file.__name__: ZipFileProvider,
+    CsvFileProvider.csv_file.__name__: (
+        CsvFileProvider,
+        Category.SPREADSHEET.value,
+    ),
+    DocxFileProvider.docx_file.__name__: (
+        DocxFileProvider,
+        Category.RICH_TEXT.value,
+    ),
+    EmlFileProvider.eml_file.__name__: (
+        EmlFileProvider,
+        Category.ARCHIVE.value,
+    ),
+    EpubFileProvider.epub_file.__name__: (
+        EpubFileProvider,
+        Category.PUBLISHING.value,
+    ),
+    # GifFileProvider.gif_file.__name__: (
+    #     GifFileProvider,
+    #     Category.IMAGE.value,
+    # ),
+    GenericFileProvider.generic_file.__name__: (
+        GenericFileProvider,
+        Category.GENERIC.value,
+    ),
+    # GraphicBmpFileProvider.graphic_bmp_file.__name__: (
+    #     GraphicBmpFileProvider,
+    #     Category.IMAGE.value,
+    # ),
+    # GraphicGifFileProvider.graphic_gif_file.__name__: (
+    #     GraphicGifFileProvider,
+    #     Category.IMAGE.value,
+    # ),
+    GraphicIcoFileProvider.graphic_ico_file.__name__: (
+        GraphicIcoFileProvider,
+        Category.IMAGE.value,
+    ),
+    GraphicJpegFileProvider.graphic_jpeg_file.__name__: (
+        GraphicJpegFileProvider,
+        Category.IMAGE.value,
+    ),
+    GraphicPdfFileProvider.graphic_pdf_file.__name__: (
+        GraphicPdfFileProvider,
+        Category.PUBLISHING.value,
+    ),
+    GraphicPngFileProvider.graphic_png_file.__name__: (
+        GraphicPngFileProvider,
+        Category.IMAGE.value,
+    ),
+    # GraphicTiffFileProvider.graphic_tiff_file.__name__: (
+    #     GraphicTiffFileProvider,
+    #     Category.IMAGE.value,
+    # ),
+    GraphicWebpFileProvider.graphic_webp_file.__name__: (
+        GraphicWebpFileProvider,
+        Category.IMAGE.value,
+    ),
+    IcoFileProvider.ico_file.__name__: (
+        IcoFileProvider,
+        Category.IMAGE.value,
+    ),
+    JpegFileProvider.jpeg_file.__name__: (
+        JpegFileProvider,
+        Category.IMAGE.value,
+    ),
+    Mp3FileProvider.mp3_file.__name__: (
+        Mp3FileProvider,
+        Category.AUDIO.value,
+    ),
+    OdpFileProvider.odp_file.__name__: (
+        OdpFileProvider,
+        Category.PRESENTATION.value,
+    ),
+    OdsFileProvider.ods_file.__name__: (
+        OdsFileProvider,
+        Category.SPREADSHEET.value,
+    ),
+    OdtFileProvider.odt_file.__name__: (
+        OdtFileProvider,
+        Category.RICH_TEXT.value,
+    ),
+    PdfFileProvider.pdf_file.__name__: (
+        PdfFileProvider,
+        Category.PUBLISHING.value,
+    ),
+    PngFileProvider.png_file.__name__: (
+        PngFileProvider,
+        Category.IMAGE.value,
+    ),
+    PptxFileProvider.pptx_file.__name__: (
+        PptxFileProvider,
+        Category.PRESENTATION.value,
+    ),
+    RtfFileProvider.rtf_file.__name__: (
+        RtfFileProvider,
+        Category.RICH_TEXT.value,
+    ),
+    SvgFileProvider.svg_file.__name__: (
+        SvgFileProvider,
+        Category.IMAGE.value,
+    ),
+    TarFileProvider.tar_file.__name__: (
+        TarFileProvider,
+        Category.ARCHIVE.value,
+    ),
+    # TiffFileProvider.tiff_file.__name__: (
+    #     TiffFileProvider,
+    #     Category.IMAGE.value,
+    # ),
+    TxtFileProvider.txt_file.__name__: (
+        TxtFileProvider,
+        Category.TEXT.value,
+    ),
+    # WebpFileProvider.webp_file.__name__: (
+    #     WebpFileProvider,
+    #     Category.IMAGE.value,
+    # ),
+    XlsxFileProvider.xlsx_file.__name__: (
+        XlsxFileProvider,
+        Category.SPREADSHEET.value,
+    ),
+    XmlFileProvider.xml_file.__name__: (
+        XmlFileProvider,
+        Category.DATA,
+    ),
+    ZipFileProvider.zip_file.__name__: (
+        ZipFileProvider,
+        Category.ARCHIVE,
+    ),
 }
 
 # See this
@@ -364,11 +482,11 @@ async def providers():
     """Providers."""
     return {
         f"/{name}/": cls.__doc__.split("\n")[0]
-        for name, cls in PROVIDERS.items()
+        for name, (cls, tag) in PROVIDERS.items()
     }
 
 
-def generate_func(__method_name, __provider):
+def generate_func(__method_name, __provider, __tag):
     __model, __props = build_pydantic_model(__provider, __method_name)
     __json = indent(
         json.dumps(__props, indent=4)[1:-1].replace("\n", "\n"), "    "
@@ -383,6 +501,7 @@ def generate_func(__method_name, __provider):
         f"/{__method_name}/",
         summary=__provider.__doc__.split("\n")[0],
         description=f"{__description}",
+        tags=[__tag],
     )
     async def _provider_func(item: __model):
         _faker = Faker()  # TODO: Let specify the locale in the params
@@ -405,8 +524,8 @@ def generate_func(__method_name, __provider):
     return _provider_func
 
 
-for __method_name, __provider in PROVIDERS.items():
-    __provider_func = generate_func(__method_name, __provider)
+for __method_name, (__provider, __tag) in PROVIDERS.items():
+    __provider_func = generate_func(__method_name, __provider, __tag)
     __provider_func.__doc__ = __method_name
     globals()[__method_name] = deepcopy(__provider_func)
     __all__.append(__method_name)
