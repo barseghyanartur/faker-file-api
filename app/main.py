@@ -32,6 +32,7 @@ from faker_file.providers.jpeg_file import (
     GraphicJpegFileProvider,
     JpegFileProvider,
 )
+from faker_file.providers.json_file import JsonFileProvider
 from faker_file.providers.mixins.image_mixin import (
     IMAGEKIT_IMAGE_GENERATOR,
     PIL_IMAGE_GENERATOR,
@@ -317,6 +318,10 @@ PROVIDERS = {
     JpegFileProvider.jpeg_file.__name__: (
         JpegFileProvider,
         Category.IMAGE.value,
+    ),
+    JsonFileProvider.json_file.__name__: (
+        JsonFileProvider,
+        Category.DATA.value,
     ),
     Mp3FileProvider.mp3_file.__name__: (
         Mp3FileProvider,
